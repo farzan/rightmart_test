@@ -1,0 +1,26 @@
+networks:
+    rightmart_default:
+        external: true
+
+volumes:
+    nfsmount:
+        driver: local
+        driver_opts:
+            type: nfs
+            o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+            device: ":${PWD}"
+
+services:
+    php-builder:
+        build:
+            context: images/php-builder
+            dockerfile: Dockerfile
+        container_name: rightmart-test-php-builder
+        volumes:
+            - "nfsmount:/var/www:delegated"
+#            - /run/host-services/ssh-auth.sock:/run/host-services/ssh-auth.sock
+#        environment:
+#            - SSH_AUTH_SOCK=/run/host-services/ssh-auth.sock
+        networks:
+            - rightmart_default
+
