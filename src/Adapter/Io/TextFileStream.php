@@ -5,14 +5,16 @@ namespace App\Adapter\Io;
 
 use App\Domain\Port\TextStreamInterface;
 use InvalidArgumentException;
-//use resource;
 
-class TextFileStream implements TextStreamInterface
+readonly class TextFileStream implements TextStreamInterface
 {
-    private readonly mixed $stream;
+    /**
+     * @var resource
+     */
+    private mixed $stream;
     
     public function __construct(
-        string $filename,
+        private string $filename,
     ) {
         if (!file_exists($filename)) {
             throw new InvalidArgumentException(sprintf("File does not exist: %s", $filename));
@@ -21,11 +23,26 @@ class TextFileStream implements TextStreamInterface
         $this->stream = fopen($filename, 'r');
     }
     
+    public function __destruct()
+    {
+        fclose($this->stream);
+    }
+    
+    public function getIdentifier(): string
+    {
+        return $this->filename;
+    }
+    
     public function read(): string|null
     {
         $content = fgets($this->stream);
         
         if ($content === false) {
+            // Helps with some file system buffering edge cases:
+            clearstatcache();
+            // Re-seek to current position to refresh EOF state:
+            fseek($this->stream, 0, SEEK_CUR);
+            
             return null;
         }
         

@@ -1,5 +1,8 @@
 FROM php:8.3-fpm-alpine
 
+# Install PHP pcntl
+RUN docker-php-ext-install pcntl
+
 # Install necessary packages
 RUN apk add --no-cache bash git openssh-client
 

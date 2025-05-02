@@ -15,7 +15,6 @@ services:
         build:
             context: images/php-builder
             dockerfile: Dockerfile
-        container_name: rightmart-test-php-builder
         volumes:
             - "nfsmount:/var/www:delegated"
 #            - /run/host-services/ssh-auth.sock:/run/host-services/ssh-auth.sock
@@ -23,4 +22,68 @@ services:
 #            - SSH_AUTH_SOCK=/run/host-services/ssh-auth.sock
         networks:
             - rightmart_default
+        profiles:
+            - donotstart
+    
+    php-cli:
+        build:
+            context: images/php-cli
+            dockerfile: Dockerfile
+        volumes:
+            - "nfsmount:/var/www:delegated"
+        networks:
+            - rightmart_default
 
+    php-fpm:
+        build:
+            context: images/php-fpm
+            dockerfile: Dockerfile
+        volumes:
+            - "nfsmount:/var/www:delegated"
+        ports:
+            - "8000:9000"
+        networks:
+            - rightmart_default
+    
+    nginx:
+        build:
+            context: images/nginx
+            dockerfile: Dockerfile
+        volumes:
+            - ./images/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+            - ../data/nginx/logs:/var/log/nginx:delegated
+            - nfsmount:/var/www:delegated
+        ports:
+            - 80:80
+        depends_on:
+            - php-fpm
+        networks:
+            - rightmart_default
+    
+    elasticsearch:
+        build:
+            context: images/elasticsearch
+            dockerfile: Dockerfile
+        environment:
+            - discovery.type=single-node
+            - xpack.security.enabled=false
+            - ES_JAVA_OPTS=-Xms512m -Xmx512m
+        ports:
+            - "9200:9200"
+        volumes:
+            - ../data/esdata:/usr/share/elasticsearch/data
+        networks:
+            - rightmart_default
+    
+    logstash:
+        build:
+            context: images/logstash
+            dockerfile: Dockerfile
+        ports:
+            - "5000:5000"
+        volumes:
+            - ./images/logstash/pipeline:/usr/share/logstash/pipeline
+        depends_on:
+            - elasticsearch
+        networks:
+            - rightmart_default

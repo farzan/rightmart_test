@@ -1,6 +1,5 @@
 .idea
-.phpunit.cache
-.phpunit.result.cache
+data/**
 
 ###> symfony/framework-bundle ###
 /.env.local

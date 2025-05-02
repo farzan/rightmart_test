@@ -6,6 +6,8 @@ namespace App\Domain\Port;
 
 interface TextStreamInterface
 {
+    public function getIdentifier(): string;
+    
     public function read(): string|null;
     
     public function seek(int $position): void;
