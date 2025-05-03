@@ -25,6 +25,13 @@ class TextStreamReaderBuilder
     ) {
     }
     
+    public static function create(
+        TimeProviderInterface $timer,
+        StreamPositionRepositoryInterface $storage,
+    ): self {
+        return new self($timer, $storage);
+    }
+    
     public function setFilename(string $filename): self
     {
         $this->filename = $filename;
@@ -74,11 +81,11 @@ class TextStreamReaderBuilder
     private function validate(): void
     {
         if (empty($this->filename)) {
-            throw new DomainException('Filename cannot be empty.');
+            throw new DomainException('Filename cannot be empty.', code: 1);
         }
         
         if (empty($this->consumer)) {
-            throw new DomainException('Consumer cannot be empty.');
+            throw new DomainException('Consumer cannot be empty.', code: 2);
         }
     }
 }

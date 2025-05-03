@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AppTests\Unit\Adapter;
+namespace AppTests\Integration\Adapter\Secondary;
 
 use App\Adapter\Secondary\TextFileStream;
 use AppTests\Support\UnitTestCase;

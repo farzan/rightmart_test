@@ -7,6 +7,7 @@ namespace App\Adapter\Secondary;
 use App\Application\Ports\Output\TextLineConsumerInterface;
 use App\Application\Services\LogEntryException;
 use App\Application\Services\LogEntryParser;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 class LogstashConsumer implements TextLineConsumerInterface
@@ -16,6 +17,9 @@ class LogstashConsumer implements TextLineConsumerInterface
     public function __construct(
         private readonly LogEntryParser $parser,
         private readonly ElasticSearchJsonLogFormatter $presenter,
+        private readonly LoggerInterface $logger,
+        private readonly string $host,
+        private readonly int $port,
     ) {
         $this->connect();
     }
@@ -29,9 +33,13 @@ class LogstashConsumer implements TextLineConsumerInterface
     {
         try {
             $parsed = $this->parser->parse($line);
-        } catch (LogEntryException) {
+        } catch (LogEntryException $e) {
             // In case of invalid log format, ignore it.
-            // @todo We can log malformed log line.
+            $this->logger->error('Could not part log entry', [
+                'log' => $line,
+                'exception' => $e,
+            ]);
+            
             return;
         }
         
@@ -44,7 +52,7 @@ class LogstashConsumer implements TextLineConsumerInterface
     
     private function connect(): void
     {
-        $this->socket = @fsockopen('logstash', 5000, $errno, $errstr, 1.0);
+        $this->socket = @fsockopen($this->host, $this->port, $errno, $errstr, 1.0);
         if (!$this->socket) {
             throw new RuntimeException("Failed to connect to Logstash: $errstr ($errno)");
         }

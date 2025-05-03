@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Adapter\Primary\Commands;
+namespace App\Adapter\Primary\Command;
 
 use App\Application\Ports\Input\LogServiceInterface;
 use Symfony\Component\Console\Attribute\AsCommand;

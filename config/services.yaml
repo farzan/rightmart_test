@@ -23,8 +23,17 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     
-    App\Application\Ports\Output\TextLineConsumerInterface:
-        class: App\Adapter\Secondary\LogstashConsumer
-        
-    App\Domain\Port\KeyValueStorageInterface:
-        class: App\Adapter\Storage\JsonKeyValueStorage
+    App\Adapter\Secondary\LogstashConsumer:
+        arguments:
+            $host: '%env(LOGSTASH_HOST)%'
+            $port: '%env(LOGSTASH_PORT)%'
+            
+    App\Adapter\Secondary\Repository\JsonStreamPositionRepository:
+        arguments:
+            $storageFile: '%env(STREAM_POSITION_STORAGE_FILE)%'
+            
+    App\Adapter\Secondary\Repository\ElasticSearchLogRepository:
+        arguments:
+            $host: '%env(ELASTICSEARCH_HOST)%'
+            $indexName: '%env(ELASTICSEARCH_INDEX)%'
+            

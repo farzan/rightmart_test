@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AppTests\Unit\Domain\LogParser;
+namespace AppTests\Unit\Application\Services;
 
 use App\Application\Services\LogEntryException;
 use App\Application\Services\LogEntryParser;
@@ -10,7 +10,7 @@ use AppTests\Support\UnitTestCase;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\TestDox;
 
-class CustomCommonLogFormatParserTest extends UnitTestCase
+class LogEntryParserTest extends UnitTestCase
 {
     #[TestDox('Parse valid log entry')]
     public function testParseValidLogEntry(): void

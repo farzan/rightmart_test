@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Adapter\Secondary\Reposiroty;
+namespace App\Adapter\Secondary\Repository;
 
 use App\Application\Ports\Output\Repository\DataQueryException;
 use App\Application\Ports\Output\Repository\LogRepositoryInterface;
@@ -14,30 +14,35 @@ use Exception;
 
 class ElasticSearchLogRepository implements LogRepositoryInterface
 {
+    public function __construct(
+        private readonly string $host,
+        private readonly string $indexName,
+    ) {
+    }
+    
     public function prepare(): void
     {
         $client = ClientBuilder::create()
-            ->setHosts(['elasticsearch:9200'])
+            ->setHosts([$this->host])
             ->build();
         
         // Delete existing index:
-        $existsResponse = $client->indices()->exists(['index' => 'aggregated-logs']);
-        //        dd($existsResponse);
+        $existsResponse = $client->indices()->exists(['index' => $this->indexName]);
         if ($existsResponse->getStatusCode() === 200) {
-            $client->indices()->delete(['index' => 'aggregated-logs']);
+            $client->indices()->delete(['index' => $this->indexName]);
         }
         
         // Delete old mapping:
-        $existsResponse = $client->indices()->existsIndexTemplate(['name' => 'aggregated-logs-template']);
+        $existsResponse = $client->indices()->existsIndexTemplate(['name' => $this->indexName . '-template']);
         if ($existsResponse->getStatusCode() !== 404) {
-            $client->indices()->deleteIndexTemplate(['name' => 'aggregated-logs-template']);
+            $client->indices()->deleteIndexTemplate(['name' => $this->indexName . '-template']);
         }
         
         // Create new mapping:
         $client->indices()->putIndexTemplate([
-            'name' => 'aggregated-logs-template',
+            'name' => $this->indexName . '-template',
             'body' => [
-                'index_patterns' => ['aggregated-logs*'],
+                'index_patterns' => [$this->indexName . '*'],
                 'template' => [
                     'mappings' => [
                         'properties' => [
@@ -55,22 +60,25 @@ class ElasticSearchLogRepository implements LogRepositoryInterface
                 'priority' => 1,
             ],
         ]);
+        
+        // Create index:
+        $client->indices()->create(['index' => $this->indexName]);
     }
     
     public function query(LogCountQuery $query): LogCount
     {
         try {
             $client = ClientBuilder::create()
-                ->setHosts(['elasticsearch:9200'])
+                ->setHosts([$this->host])
                 ->build();
             
             $queryArray = $this->getQuery($query);
             
             if ($queryArray === []) {
-                $result = $client->count(['aggregated-logs']);
+                $result = $client->count([$this->indexName]);
             } else {
                 $result = $client->count([
-                    'aggregated-logs',
+                    $this->indexName,
                     'body' => $queryArray,
                 ]);
             }
@@ -79,6 +87,8 @@ class ElasticSearchLogRepository implements LogRepositoryInterface
             
             return new LogCount(counter: $count);
         } catch (Exception $e) {
+            
+            
             throw new DataQueryException('Could not query data.', previous: $e);
         }
     }

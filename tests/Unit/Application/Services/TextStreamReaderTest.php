@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AppTests\Unit\Domain;
+namespace AppTests\Unit\Application\Services;
 
 use App\Application\Ports\Input\TextStreamInterface;
 use App\Application\Ports\Output\Repository\StreamPositionRepositoryInterface;

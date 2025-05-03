@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Adapter\Primary\Controllers;
+namespace App\Adapter\Primary\Controller;
 
 use App\Application\Ports\Input\LogServiceInterface;
 use DateTime;
 use App\Domain\LogCounter\LogCountQuery;
 use Exception;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,8 +17,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class ApiController extends AbstractController
 {
     #[Route(path: '/count')]
-    public function count(Request $request, LogServiceInterface $logService): Response
-    {
+    public function count(
+        Request $request,
+        LogServiceInterface $logService,
+        LoggerInterface $logger,
+    ): Response {
         $query = $this->getCountQuery($request);
         
         try {
@@ -26,7 +30,9 @@ class ApiController extends AbstractController
             return $this->json([
                 'counter' => $count->counter,
             ]);
-        } catch (Exception) {
+        } catch (Exception $e) {
+            $logger->error('Error counting documents', ['exception' => $e]);
+            
             return new Response(status: 400);
         }
     }
