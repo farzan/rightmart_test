@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace AppTests\Unit\Domain;
 
-use Application\Ports\Input\TextStreamInterface;
-use Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
-use Application\Ports\Output\TextLineConsumerInterface;
-use Application\Ports\Output\TimeProviderInterface;
-use Application\Services\TextStreamReader;
+use App\Application\Ports\Input\TextStreamInterface;
+use App\Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
+use App\Application\Ports\Output\TextLineConsumerInterface;
+use App\Application\Ports\Output\TimeProviderInterface;
+use App\Application\Services\TextStreamReader;
 use AppTests\Support\UnitTestCase;
 use PHPUnit\Framework\Attributes\TestDox;
 

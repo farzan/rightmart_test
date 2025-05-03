@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Application\Services;
+namespace App\Application\Services;
 
-use Application\Ports\Input\LogServiceInterface;
-use Application\Ports\Output\Repository\LogRepositoryInterface;
-use Domain\LogCounter\LogCount;
-use Domain\LogCounter\LogCountQuery;
+use App\Application\Ports\Input\LogServiceInterface;
+use App\Application\Ports\Output\Repository\LogRepositoryInterface;
+use App\Domain\LogCounter\LogCount;
+use App\Domain\LogCounter\LogCountQuery;
 
 class LogService implements LogServiceInterface
 {

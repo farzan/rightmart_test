@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Adapter\Secondary;
+namespace App\Adapter\Secondary;
 
-use Application\Ports\Input\TextStreamInterface;
+use App\Application\Ports\Input\TextStreamInterface;
 use InvalidArgumentException;
 
 readonly class TextFileStream implements TextStreamInterface

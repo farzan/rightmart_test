@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace AppTests\Unit\Application\Services;
 
-use Application\Ports\Output\Repository\LogRepositoryInterface;
-use Application\Services\LogService;
+use App\Application\Ports\Output\Repository\LogRepositoryInterface;
+use App\Application\Services\LogService;
 use AppTests\Support\UnitTestCase;
-use Domain\LogCounter\LogCount;
-use Domain\LogCounter\LogCountQuery;
+use App\Domain\LogCounter\LogCount;
+use App\Domain\LogCounter\LogCountQuery;
 
 class LogServiceTest extends UnitTestCase
 {

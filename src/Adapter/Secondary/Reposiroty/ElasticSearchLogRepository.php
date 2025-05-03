@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Adapter\Secondary\Reposiroty;
+namespace App\Adapter\Secondary\Reposiroty;
 
-use Application\Ports\Output\Repository\DataQueryException;
-use Application\Ports\Output\Repository\LogRepositoryInterface;
+use App\Application\Ports\Output\Repository\DataQueryException;
+use App\Application\Ports\Output\Repository\LogRepositoryInterface;
 use DateTimeInterface;
-use Domain\LogCounter\LogCount;
-use Domain\LogCounter\LogCountQuery;
+use App\Domain\LogCounter\LogCount;
+use App\Domain\LogCounter\LogCountQuery;
 use Elastic\Elasticsearch\ClientBuilder;
 use Exception;
 

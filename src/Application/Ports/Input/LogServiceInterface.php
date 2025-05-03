@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Application\Ports\Input;
+namespace App\Application\Ports\Input;
 
-use Domain\LogCounter\LogCount;
-use Domain\LogCounter\LogCountQuery;
+use App\Domain\LogCounter\LogCount;
+use App\Domain\LogCounter\LogCountQuery;
 
 interface LogServiceInterface
 {

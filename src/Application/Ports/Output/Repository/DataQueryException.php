@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Application\Ports\Output\Repository;
+namespace App\Application\Ports\Output\Repository;
 
 use Exception;
 

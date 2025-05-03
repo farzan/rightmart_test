@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Adapter\Secondary\Reposiroty;
+namespace App\Adapter\Secondary\Reposiroty;
 
-use Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
+use App\Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
 use stdClass;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Adapter\Secondary;
+namespace App\Adapter\Secondary;
 
-use Application\Ports\Output\TextLineConsumerInterface;
-use Application\Services\LogEntryException;
-use Application\Services\LogEntryParser;
+use App\Application\Ports\Output\TextLineConsumerInterface;
+use App\Application\Services\LogEntryException;
+use App\Application\Services\LogEntryParser;
 use RuntimeException;
 
 class LogstashConsumer implements TextLineConsumerInterface

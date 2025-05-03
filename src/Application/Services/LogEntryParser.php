@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Application\Services;
+namespace App\Application\Services;
 
 use DateTime;
 use DateTimeInterface;
-use Domain\LogParser\LogEntry;
+use App\Domain\LogParser\LogEntry;
 
 class LogEntryParser
 {

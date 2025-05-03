@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Adapter\Secondary;
+namespace App\Adapter\Secondary;
 
-use Application\Ports\Output\TimeProviderInterface;
+use App\Application\Ports\Output\TimeProviderInterface;
 
 /**
  * @codeCoverageIgnore

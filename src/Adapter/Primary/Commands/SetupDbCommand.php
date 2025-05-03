@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Adapter\Primary\Commands;
+namespace App\Adapter\Primary\Commands;
 
-use Application\Ports\Input\LogServiceInterface;
+use App\Application\Ports\Input\LogServiceInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

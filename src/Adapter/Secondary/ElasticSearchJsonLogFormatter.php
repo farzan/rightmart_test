@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Adapter\Secondary;
+namespace App\Adapter\Secondary;
 
 use DateTimeInterface;
-use Domain\LogParser\LogEntry;
+use App\Domain\LogParser\LogEntry;
 
 class ElasticSearchJsonLogFormatter
 {

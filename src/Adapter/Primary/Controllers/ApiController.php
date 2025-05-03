@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Adapter\Primary\Controllers;
+namespace App\Adapter\Primary\Controllers;
 
-use Application\Ports\Input\LogServiceInterface;
+use App\Application\Ports\Input\LogServiceInterface;
 use DateTime;
-use Domain\LogCounter\LogCountQuery;
+use App\Domain\LogCounter\LogCountQuery;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

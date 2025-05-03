@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Application\Ports\Input;
+namespace App\Application\Ports\Input;
 
 /**
  * Interface for a Text based data stream. The stream should be identifiable,

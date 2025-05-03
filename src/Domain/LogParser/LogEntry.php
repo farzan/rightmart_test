@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Domain\LogParser;
+namespace App\Domain\LogParser;
 
 use DateTimeInterface;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Domain\LogCounter;
+namespace App\Domain\LogCounter;
 
 readonly class LogCount
 {

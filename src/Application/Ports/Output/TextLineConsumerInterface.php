@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Application\Ports\Output;
+namespace App\Application\Ports\Output;
 
 /**
  * Interface for a consumer that consumes a log line.

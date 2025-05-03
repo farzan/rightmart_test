@@ -23,9 +23,8 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     
-    App\Domain\Port\TextLineConsumerInterface:
-#        class: App\Adapter\Secondary\LinePrinter
-        class: App\Adapter\LineConsumer\LogstashConsumer
+    App\Application\Ports\Output\TextLineConsumerInterface:
+        class: App\Adapter\Secondary\LogstashConsumer
         
     App\Domain\Port\KeyValueStorageInterface:
         class: App\Adapter\Storage\JsonKeyValueStorage

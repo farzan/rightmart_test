@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace AppTests\Unit\Domain\LogParser;
 
-use Application\Services\LogEntryException;
-use Application\Services\LogEntryParser;
+use App\Application\Services\LogEntryException;
+use App\Application\Services\LogEntryParser;
 use AppTests\Support\UnitTestCase;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\TestDox;
