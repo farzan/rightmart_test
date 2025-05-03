@@ -24,6 +24,8 @@ services:
             - rightmart_default
         profiles:
             - donotstart
+        env_file:
+            - ../.env
     
     php-cli:
         build:

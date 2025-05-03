@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace AppTests\Unit\Domain;
 
-use App\Domain\Port\KeyValueStorageInterface;
-use App\Domain\Port\TextLineConsumerInterface;
-use App\Domain\Port\TextStreamInterface;
-use App\Domain\Port\TimerInterface;
-use App\Domain\TextStreamReader;
+use Application\Ports\Input\TextStreamInterface;
+use Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
+use Application\Ports\Output\TextLineConsumerInterface;
+use Application\Ports\Output\TimeProviderInterface;
+use Application\Services\TextStreamReader;
 use AppTests\Support\UnitTestCase;
 use PHPUnit\Framework\Attributes\TestDox;
 
@@ -30,11 +30,11 @@ class TextStreamReaderTest extends UnitTestCase
                 '5',
             );
         
-        $timer = $this->createMock(TimerInterface::class);
+        $timer = $this->createMock(TimeProviderInterface::class);
         $timer->expects($this->exactly(3))
             ->method('sleepMilliseconds');
         
-        $storage = $this->createStub(KeyValueStorageInterface::class);
+        $storage = $this->createStub(StreamPositionRepositoryInterface::class);
         
         $reader = new TextStreamReader($stream, $timer, $storage);
         
@@ -69,7 +69,7 @@ class TextStreamReaderTest extends UnitTestCase
     #[TestDox('When stream is processed for the first time, don\'t seek, but store the final position')]
     public function testFirstStreamProcess(): void
     {
-        $timer = $this->createMock(TimerInterface::class);
+        $timer = $this->createMock(TimeProviderInterface::class);
         
         $stream = $this->createMock(TextStreamInterface::class);
         $stream->method('getIdentifier')
@@ -81,7 +81,7 @@ class TextStreamReaderTest extends UnitTestCase
         $stream->method('read')
             ->willReturn(null);
         
-        $storage = $this->createMock(KeyValueStorageInterface::class);
+        $storage = $this->createMock(StreamPositionRepositoryInterface::class);
         $storage->expects($this->once())
             ->method('has')
             ->willReturn(false);
@@ -108,7 +108,7 @@ class TextStreamReaderTest extends UnitTestCase
     #[TestDox('When stream is processed for the second time, seek, and store the final position')]
     public function testSecondStreamProcess(): void
     {
-        $timer = $this->createMock(TimerInterface::class);
+        $timer = $this->createMock(TimeProviderInterface::class);
         
         $stream = $this->createMock(TextStreamInterface::class);
         $stream->method('getIdentifier')
@@ -121,7 +121,7 @@ class TextStreamReaderTest extends UnitTestCase
         $stream->method('read')
             ->willReturn(null);
         
-        $storage = $this->createMock(KeyValueStorageInterface::class);
+        $storage = $this->createMock(StreamPositionRepositoryInterface::class);
         $storage->expects($this->once())
             ->method('has')
             ->with('file.log')

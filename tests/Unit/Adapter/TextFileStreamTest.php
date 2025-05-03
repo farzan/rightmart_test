@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AppTests\Unit\Adapter;
 
-use App\Adapter\Io\TextFileStream;
+use Adapter\Secondary\TextFileStream;
 use AppTests\Support\UnitTestCase;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\TestDox;

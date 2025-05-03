@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace AppTests\Unit\Domain\LogParser;
 
-use App\Domain\LogParser\CustomFormatParser;
-use App\Domain\LogParser\LogEntryException;
+use Application\Services\LogEntryException;
+use Application\Services\LogEntryParser;
 use AppTests\Support\UnitTestCase;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\TestDox;
@@ -17,7 +17,7 @@ class CustomCommonLogFormatParserTest extends UnitTestCase
     {
         $entry = 'USER-SERVICE - - [17/Aug/2018:09:21:53 +0200] "POST /users HTTP/1.1" 201';
         
-        $parser = new CustomFormatParser();
+        $parser = new LogEntryParser();
         $parsedEntry = $parser->parse($entry);
         
         $this->assertNotNull($parsedEntry);
@@ -38,7 +38,7 @@ class CustomCommonLogFormatParserTest extends UnitTestCase
         
         // No status code:
         $entry = 'USER-SERVICE - - [17/Aug/2018:09:21:53 +0200] "POST /users HTTP/1.1"';
-        $parser = new CustomFormatParser();
+        $parser = new LogEntryParser();
         $parser->parse($entry);
     }
     
@@ -48,7 +48,7 @@ class CustomCommonLogFormatParserTest extends UnitTestCase
         
         // Invalid month:
         $entry = 'USER-SERVICE - - [17/Aux/2018:09:21:53 +0200] "POST /users HTTP/1.1" 201';
-        $parser = new CustomFormatParser();
+        $parser = new LogEntryParser();
         $parser->parse($entry);
     }
 }
