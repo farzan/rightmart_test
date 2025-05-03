@@ -8,10 +8,12 @@ use App\Application\Ports\Output\Repository\LogRepositoryInterface;
 use App\Application\Services\LogService;
 use App\Domain\LogCounter\LogCount;
 use App\Domain\LogCounter\LogCountQuery;
+use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
 class LogServiceTest extends TestCase
 {
+    #[TestDox('Log service query')]
     public function testQuery(): void
     {
         $expectedCount = new LogCount(123);

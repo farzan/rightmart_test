@@ -6,7 +6,7 @@ namespace AppTests\Unit\Application\Services;
 
 use App\Application\Ports\Input\TextStreamInterface;
 use App\Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
-use App\Application\Ports\Output\TextLineConsumerInterface;
+use App\Application\Ports\Output\LogLineRepositoryInterface;
 use App\Application\Ports\Output\TimeProviderInterface;
 use App\Application\Services\TextStreamReader;
 use PHPUnit\Framework\Attributes\TestDox;
@@ -45,7 +45,7 @@ class TextStreamReaderTest extends TestCase
             return $status[$i++];
         });
         
-        $consumer = $this->createMock(TextLineConsumerInterface::class);
+        $consumer = $this->createMock(LogLineRepositoryInterface::class);
         $consumer->expects($this->exactly(5))
             ->method('consume')
             ->with($this->callback(function (string $line) {

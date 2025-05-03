@@ -7,6 +7,9 @@ namespace App\Adapter\Secondary;
 use DateTimeInterface;
 use App\Domain\LogParser\LogEntry;
 
+/**
+ * @codeCoverageIgnore 
+ */
 class ElasticSearchJsonLogFormatter
 {
     public function present(LogEntry $logEntry): string

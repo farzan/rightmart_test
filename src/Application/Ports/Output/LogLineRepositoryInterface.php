@@ -7,7 +7,7 @@ namespace App\Application\Ports\Output;
 /**
  * Interface for a consumer that consumes a log line.
  */
-interface TextLineConsumerInterface
+interface LogLineRepositoryInterface
 {
     public function consume(string $line): void;
 }

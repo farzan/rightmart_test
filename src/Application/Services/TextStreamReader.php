@@ -6,14 +6,14 @@ namespace App\Application\Services;
 
 use App\Application\Ports\Input\TextStreamInterface;
 use App\Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
-use App\Application\Ports\Output\TextLineConsumerInterface;
+use App\Application\Ports\Output\LogLineRepositoryInterface;
 use App\Application\Ports\Output\TimeProviderInterface;
 
 class TextStreamReader
 {
     const int DELAY_IN_MILLISECONDS = 100;
     
-    private TextLineConsumerInterface $consumer;
+    private LogLineRepositoryInterface $consumer;
     
     /**
      * @var callable|null
@@ -35,7 +35,7 @@ class TextStreamReader
         $this->storeStreamPosition();
     }
     
-    public function registerConsumer(TextLineConsumerInterface $consumer): void
+    public function registerConsumer(LogLineRepositoryInterface $consumer): void
     {
         $this->consumer = $consumer;
     }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AppTests\Unit\Application\Services;
 
 use App\Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
-use App\Application\Ports\Output\TextLineConsumerInterface;
+use App\Application\Ports\Output\LogLineRepositoryInterface;
 use App\Application\Ports\Output\TimeProviderInterface;
 use App\Application\Services\TextStreamReaderBuilder;
 use DomainException;
@@ -24,7 +24,7 @@ class TextStreamReaderBuilderTest extends TestCase
             $this->createStub(TimeProviderInterface::class),
             $this->createStub(StreamPositionRepositoryInterface::class),
         )
-            ->setConsumer($this->createStub(TextLineConsumerInterface::class))
+            ->setConsumer($this->createStub(LogLineRepositoryInterface::class))
             ->build();
     }
     

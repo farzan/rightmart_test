@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Adapter\Primary\Command;
 
-use App\Application\Ports\Output\TextLineConsumerInterface;
+use App\Application\Ports\Output\LogLineRepositoryInterface;
 use App\Application\Services\TextStreamReaderBuilder;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,7 +19,7 @@ class IngestLogsCommand extends Command
 {
     public function __construct(
         private readonly TextStreamReaderBuilder $readerBuilder,
-        private readonly TextLineConsumerInterface $lineConsumer,
+        private readonly LogLineRepositoryInterface $lineConsumer,
     ) {
         parent::__construct();
     }

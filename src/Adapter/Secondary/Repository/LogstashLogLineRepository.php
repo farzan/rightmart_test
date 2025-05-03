@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Adapter\Secondary;
+namespace App\Adapter\Secondary\Repository;
 
-use App\Application\Ports\Output\TextLineConsumerInterface;
+use App\Adapter\Secondary\ElasticSearchJsonLogFormatter;
+use App\Application\Ports\Output\LogLineRepositoryInterface;
 use App\Application\Services\LogEntryException;
 use App\Application\Services\LogEntryParser;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 
-class LogstashConsumer implements TextLineConsumerInterface
+class LogstashLogLineRepository implements LogLineRepositoryInterface
 {
     private mixed $socket;
     

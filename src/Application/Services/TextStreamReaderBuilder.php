@@ -6,7 +6,7 @@ namespace App\Application\Services;
 
 use App\Adapter\Secondary\TextFileStream;
 use App\Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
-use App\Application\Ports\Output\TextLineConsumerInterface;
+use App\Application\Ports\Output\LogLineRepositoryInterface;
 use App\Application\Ports\Output\TimeProviderInterface;
 use DomainException;
 
@@ -16,7 +16,7 @@ class TextStreamReaderBuilder
     
     private bool $shouldTail = true;
     
-    private TextLineConsumerInterface $consumer;
+    private LogLineRepositoryInterface $consumer;
     private mixed $stopSignalerCallback;
     
     public function __construct(
@@ -39,7 +39,7 @@ class TextStreamReaderBuilder
         return $this;
     }
     
-    public function setConsumer(TextLineConsumerInterface $consumer): self
+    public function setConsumer(LogLineRepositoryInterface $consumer): self
     {
         $this->consumer = $consumer;
         

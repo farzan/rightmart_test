@@ -16,7 +16,7 @@ setup:
 	$(BUILDER) bash -c "chmod +x ./docker/setup.sh && ./docker/setup.sh"
 	make up
 	$(BUILDER) ./docker/wait_for_elastic.sh
-	$(CLI) bin/console app:setup-db
+	$(CLI) bin/console app:setup-db --YES
 teardown:
 	-$(COMPOSE) down --volumes
 	-docker network rm $(APP_NETWORK);

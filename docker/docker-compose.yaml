@@ -17,9 +17,6 @@ services:
             dockerfile: Dockerfile
         volumes:
             - "nfsmount:/var/www:delegated"
-#            - /run/host-services/ssh-auth.sock:/run/host-services/ssh-auth.sock
-#        environment:
-#            - SSH_AUTH_SOCK=/run/host-services/ssh-auth.sock
         networks:
             - rightmart_default
         profiles:
