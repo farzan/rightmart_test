@@ -10,7 +10,7 @@ CLI = $(COMPOSE) exec -t php-cli
 
 ## Build/Destroy:
 setup:
-	docker network create $(APP_NETWORK);
+	-docker network create $(APP_NETWORK);
 	make build
 	make composer-install
 	$(BUILDER) bash -c "chmod +x ./docker/setup.sh && ./docker/setup.sh"
@@ -42,7 +42,7 @@ reset-file-database:
 
 ## Tests:
 test:
-	$(COMPOSE) run --rm php-builder php bin/phpunit
+	$(BUILDER) composer run-script test
 
 ## Helpers:
 shell-builder:
@@ -61,3 +61,5 @@ healthcheck-elastic:
 	curl -X GET "localhost:9200"
 healthcheck-logstash:
 	echo '{"message":"hello world from Farzan"}' | nc localhost 5000
+cache-clear:
+	$(BUILDER) composer run-script cache-clear

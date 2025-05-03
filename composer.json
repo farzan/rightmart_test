@@ -73,6 +73,12 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "cache-clear": [
+            "bin/console cache:clear"
+        ],
+        "test": [
+            "bin/phpunit"
         ]
     },
     "conflict": {

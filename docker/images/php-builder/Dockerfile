@@ -16,4 +16,6 @@ RUN git config --global --add safe.directory /var/www/rightmart_test
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash
 RUN apk add symfony-cli
 
+RUN git config --global --add safe.directory /var/www
+
 WORKDIR /var/www
