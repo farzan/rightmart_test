@@ -47,7 +47,6 @@ class IngestLogsCommand extends Command
             })
             ->shouldTail(!$input->getOption('no-tail'))
             ->build();
-
         
         $signalHandler = static function (int $signal) use (&$shouldStop, $io) {
             $shouldStop = true;

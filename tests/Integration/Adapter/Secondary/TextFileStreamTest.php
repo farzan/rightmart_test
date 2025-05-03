@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace AppTests\Integration\Adapter\Secondary;
 
 use App\Adapter\Secondary\TextFileStream;
-use AppTests\Support\UnitTestCase;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\TestCase;
 
-class TextFileStreamTest extends UnitTestCase
+class TextFileStreamTest extends TestCase
 {
     #[TestDox('Testing the stream with invalid filename')]
     public function testInvalidFile(): void

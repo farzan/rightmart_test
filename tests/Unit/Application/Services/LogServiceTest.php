@@ -6,11 +6,11 @@ namespace AppTests\Unit\Application\Services;
 
 use App\Application\Ports\Output\Repository\LogRepositoryInterface;
 use App\Application\Services\LogService;
-use AppTests\Support\UnitTestCase;
 use App\Domain\LogCounter\LogCount;
 use App\Domain\LogCounter\LogCountQuery;
+use PHPUnit\Framework\TestCase;
 
-class LogServiceTest extends UnitTestCase
+class LogServiceTest extends TestCase
 {
     public function testQuery(): void
     {

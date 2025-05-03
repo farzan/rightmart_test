@@ -6,11 +6,11 @@ namespace AppTests\Unit\Application\Services;
 
 use App\Application\Services\LogEntryException;
 use App\Application\Services\LogEntryParser;
-use AppTests\Support\UnitTestCase;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\TestCase;
 
-class LogEntryParserTest extends UnitTestCase
+class LogEntryParserTest extends TestCase
 {
     #[TestDox('Parse valid log entry')]
     public function testParseValidLogEntry(): void
@@ -32,6 +32,7 @@ class LogEntryParserTest extends UnitTestCase
         $this->assertSame(201, $parsedEntry->statusCode);
     }
     
+    #[TestDox('Invalid log format')]
     public function testInvalidFormat(): void
     {
         $this->expectException(LogEntryException::class);
@@ -42,6 +43,7 @@ class LogEntryParserTest extends UnitTestCase
         $parser->parse($entry);
     }
     
+    #[TestDox('Invalid log date')]
     public function testInvalidDate(): void
     {
         $this->expectException(LogEntryException::class);

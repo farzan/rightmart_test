@@ -49,6 +49,7 @@ class SetupDbCommand extends Command
             '- Old index dropped',
             '- Old mapping templated dropped',
             '- New mapping template created',
+            '- New index created',
         ]);
         
         return self::SUCCESS;

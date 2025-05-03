@@ -8,11 +8,11 @@ use App\Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
 use App\Application\Ports\Output\TextLineConsumerInterface;
 use App\Application\Ports\Output\TimeProviderInterface;
 use App\Application\Services\TextStreamReaderBuilder;
-use AppTests\Support\UnitTestCase;
 use DomainException;
 use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\TestCase;
 
-class TextStreamReaderBuilderTest extends UnitTestCase
+class TextStreamReaderBuilderTest extends TestCase
 {
     #[TestDox('Expect exception when filename is not set')]
     public function testFailOnNoFilename(): void

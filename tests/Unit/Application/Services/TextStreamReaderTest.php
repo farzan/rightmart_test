@@ -9,10 +9,10 @@ use App\Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
 use App\Application\Ports\Output\TextLineConsumerInterface;
 use App\Application\Ports\Output\TimeProviderInterface;
 use App\Application\Services\TextStreamReader;
-use AppTests\Support\UnitTestCase;
 use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\TestCase;
 
-class TextStreamReaderTest extends UnitTestCase
+class TextStreamReaderTest extends TestCase
 {
     #[TestDox('Start reading with 4 lines, and then stop after 5 reads')]
     public function testStartThenRead4LinesThenStop(): void
