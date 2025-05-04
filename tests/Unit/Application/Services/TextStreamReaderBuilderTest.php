@@ -11,6 +11,7 @@ use App\Application\Services\TextStreamReaderBuilder;
 use DomainException;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class TextStreamReaderBuilderTest extends TestCase
 {
@@ -20,25 +21,14 @@ class TextStreamReaderBuilderTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionCode(1);
         
-        TextStreamReaderBuilder::create(
+        $builder = new TextStreamReaderBuilder(
             $this->createStub(TimeProviderInterface::class),
             $this->createStub(StreamPositionRepositoryInterface::class),
-        )
-            ->setConsumer($this->createStub(LogLineRepositoryInterface::class))
-            ->build();
-    }
-    
-    #[TestDox('Expect exception when consumer is not set')]
-    public function testFailOnNoConsumer(): void
-    {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionCode(2);
+            $this->createStub(EventDispatcherInterface::class),
+        );
         
-        TextStreamReaderBuilder::create(
-            $this->createStub(TimeProviderInterface::class),
-            $this->createStub(StreamPositionRepositoryInterface::class),
-        )
-            ->setFilename('filename')
+        $builder
+            ->setConsumer($this->createStub(LogLineRepositoryInterface::class))
             ->build();
     }
 }

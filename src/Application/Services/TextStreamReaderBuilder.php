@@ -9,6 +9,7 @@ use App\Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
 use App\Application\Ports\Output\LogLineRepositoryInterface;
 use App\Application\Ports\Output\TimeProviderInterface;
 use DomainException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class TextStreamReaderBuilder
 {
@@ -17,19 +18,12 @@ class TextStreamReaderBuilder
     private bool $shouldTail = true;
     
     private LogLineRepositoryInterface $consumer;
-    private mixed $stopSignalerCallback;
     
     public function __construct(
         private readonly TimeProviderInterface $timer,
         private readonly StreamPositionRepositoryInterface $storage,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
-    }
-    
-    public static function create(
-        TimeProviderInterface $timer,
-        StreamPositionRepositoryInterface $storage,
-    ): self {
-        return new self($timer, $storage);
     }
     
     public function setFilename(string $filename): self
@@ -53,13 +47,6 @@ class TextStreamReaderBuilder
         return $this;
     }
     
-    public function setStopSignaler(callable $stopSignalerCallback): self
-    {
-        $this->stopSignalerCallback = $stopSignalerCallback;
-        
-        return $this;
-    }
-    
     public function build(): TextStreamReader
     {
         $this->validate();
@@ -68,12 +55,10 @@ class TextStreamReaderBuilder
             new TextFileStream($this->filename),
             $this->timer,
             $this->storage,
+            $this->eventDispatcher,
+            $this->consumer,
             $this->shouldTail,
         );
-        $reader->registerConsumer($this->consumer);
-        if (!empty($this->stopSignalerCallback)) {
-            $reader->registerStopSignal($this->stopSignalerCallback);
-        }
         
         return $reader;
     }

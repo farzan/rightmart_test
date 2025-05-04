@@ -5,27 +5,31 @@ declare(strict_types=1);
 namespace App\Application\Services;
 
 use App\Application\Ports\Input\TextStreamInterface;
-use App\Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
 use App\Application\Ports\Output\LogLineRepositoryInterface;
+use App\Application\Ports\Output\Repository\StreamPositionRepositoryInterface;
 use App\Application\Ports\Output\TimeProviderInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class TextStreamReader
 {
     const int DELAY_IN_MILLISECONDS = 100;
     
-    private LogLineRepositoryInterface $consumer;
-    
-    /**
-     * @var callable|null
-     */
-    private mixed $stopSignalCallback = null;
+    private bool $terminate = false;
     
     public function __construct(
         private readonly TextStreamInterface $textStream,
         private readonly TimeProviderInterface $timer,
         private readonly StreamPositionRepositoryInterface $storage,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly LogLineRepositoryInterface $consumer,
         private readonly bool $shouldTail = true,
     ) {
+        $this->eventDispatcher->addListener(
+            TerminateCommandEvent::EVENT_NAME,
+            function (TerminateCommandEvent $event) {
+                $this->terminate = true;
+            },
+        );
     }
     
     public function start(): void
@@ -35,14 +39,9 @@ class TextStreamReader
         $this->storeStreamPosition();
     }
     
-    public function registerConsumer(LogLineRepositoryInterface $consumer): void
+    public function shouldContinue(): bool
     {
-        $this->consumer = $consumer;
-    }
-    
-    public function registerStopSignal(callable $stopSignalCallback): void
-    {
-        $this->stopSignalCallback = $stopSignalCallback;
+        return !$this->terminate;
     }
     
     private function ingestLogs(): void
@@ -78,13 +77,5 @@ class TextStreamReader
             key: $this->textStream->getIdentifier(),
             value: (string) $this->textStream->getPosition(),
         );
-    }
-    
-    /**
-     * @return bool
-     */
-    private function shouldContinue(): bool
-    {
-        return $this->stopSignalCallback === null || ($this->stopSignalCallback)() === false;
     }
 }

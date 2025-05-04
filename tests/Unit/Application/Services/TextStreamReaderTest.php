@@ -11,6 +11,7 @@ use App\Application\Ports\Output\TimeProviderInterface;
 use App\Application\Services\TextStreamReader;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class TextStreamReaderTest extends TestCase
 {
@@ -35,20 +36,13 @@ class TextStreamReaderTest extends TestCase
             ->method('sleepMilliseconds');
         
         $storage = $this->createStub(StreamPositionRepositoryInterface::class);
+        $eventDispatcher = $this->createStub(EventDispatcherInterface::class);
         
-        $reader = new TextStreamReader($stream, $timer, $storage);
-        
-        $reader->registerStopSignal(function () {
-            static $i = 0;
-            static $status = [...array_fill(0, 8, false), true];
-            
-            return $status[$i++];
-        });
-        
-        $consumer = $this->createMock(LogLineRepositoryInterface::class);
-        $consumer->expects($this->exactly(5))
+        $logLineRepo = $this->createMock(LogLineRepositoryInterface::class);
+        $logLineRepo->expects($this->exactly(5))
             ->method('consume')
             ->with($this->callback(function (string $line) {
+                dump('xxxx');
                 static $lines = [
                     '1',
                     '2',
@@ -61,7 +55,17 @@ class TextStreamReaderTest extends TestCase
                 return $lines[$index++] === $line;
             }));
         
-        $reader->registerConsumer($consumer);
+        $reader = $this->getMockBuilder(TextStreamReader::class)
+            ->onlyMethods(['shouldContinue'])
+            ->setConstructorArgs([$stream, $timer, $storage, $eventDispatcher, $logLineRepo])
+            ->getMock();
+        $reader->method('shouldContinue')
+            ->willReturnCallback(function () {
+                static $i = 0;
+                static $status = [...array_fill(0, 8, true), false];
+                
+                return $status[$i++];
+            });
         
         $reader->start();
     }
@@ -91,16 +95,23 @@ class TextStreamReaderTest extends TestCase
             ->method('set')
             ->with('file.log', '123');
         
-        $reader = new TextStreamReader($stream, $timer, $storage);
+        $dispatcher = $this->createStub(EventDispatcherInterface::class);
+        $logLineRepo = $this->createMock(LogLineRepositoryInterface::class);
         
-        $reader->registerStopSignal(function () {
-            static $i = 0;
-            // Stop after one read:
-            static $status = [false, true];
-
-            return $status[$i++];
-        });
+        $reader = $this->getMockBuilder(TextStreamReader::class)
+            ->onlyMethods(['shouldContinue'])
+            ->setConstructorArgs([$stream, $timer, $storage, $dispatcher, $logLineRepo])
+            ->getMock();
         
+        $reader->method('shouldContinue')
+            ->willReturnCallback(function () {
+                static $i = 0;
+                // Stop after one read:
+                static $status = [true, false];
+                
+                return $status[$i++];
+            });
+            
         // Start first reader without stored position:
         $reader->start();
     }
@@ -134,15 +145,22 @@ class TextStreamReaderTest extends TestCase
             ->method('set')
             ->with('file.log', '234');
         
-        $reader = new TextStreamReader($stream, $timer, $storage);
+        $dispatcher = $this->createStub(EventDispatcherInterface::class);
+        $logLineRepo = $this->createMock(LogLineRepositoryInterface::class);
         
-        $reader->registerStopSignal(function () {
-            static $i = 0;
-            // Stop after one read:
-            static $status = [false, true];
-
-            return $status[$i++];
-        });
+        $reader = $this->getMockBuilder(TextStreamReader::class)
+            ->onlyMethods(['shouldContinue'])
+            ->setConstructorArgs([$stream, $timer, $storage, $dispatcher, $logLineRepo])
+            ->getMock();
+        
+        $reader->method('shouldContinue')
+            ->willReturnCallback(function () {
+                static $i = 0;
+                // Stop after one read:
+                static $status = [true, false];
+                
+                return $status[$i++];
+            });
         
         // Start first reader without stored position:
         $reader->start();
