@@ -86,3 +86,5 @@ services:
             - elasticsearch
         networks:
             - rightmart_default
+        env_file:
+            - ../.env

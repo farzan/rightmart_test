@@ -53,6 +53,8 @@ shell-fpm:
 	$(COMPOSE) exec -it php-cli sh
 shell-nginx:
 	$(COMPOSE) exec -it nginx sh
+shell-logstash:
+	$(COMPOSE) exec -it logstash sh
 compose-debug:
 	$(COMPOSE) config
 compose-ps:
