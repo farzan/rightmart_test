@@ -53,7 +53,7 @@ services:
             - ../data/nginx/logs:/var/log/nginx:delegated
             - nfsmount:/var/www:delegated
         ports:
-            - 80:80
+            - "80:80"
         depends_on:
             - php-fpm
         networks:

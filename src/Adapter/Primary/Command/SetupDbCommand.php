@@ -47,7 +47,7 @@ class SetupDbCommand extends Command
         $this->logService->prepareStorage();
         $io->writeln([
             '- Old index dropped',
-            '- Old mapping templated dropped',
+            '- Old mapping template dropped',
             '- New mapping template created',
             '- New index created',
         ]);
