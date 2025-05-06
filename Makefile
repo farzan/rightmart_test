@@ -5,7 +5,7 @@ APP_NETWORK = rightmart_default
 
 # Frequently used commands:
 COMPOSE = docker compose -p rightmart-test -f docker/docker-compose.yaml
-BUILDER = $(COMPOSE) run --rm php-builder
+BUILDER = $(COMPOSE) --profile utility run --rm php-builder
 CLI = $(COMPOSE) exec -t php-cli
 
 ## Build/Destroy:
@@ -46,7 +46,7 @@ test:
 
 ## Helpers:
 shell-builder:
-	$(COMPOSE) run --rm -it php-builder bash
+	$(COMPOSE) --profile utility run --rm -it  php-builder bash
 shell-cli:
 	$(COMPOSE) exec -it php-cli sh
 shell-fpm:
@@ -60,7 +60,7 @@ compose-debug:
 compose-ps:
 	$(COMPOSE) ps
 healthcheck-elastic:
-	curl -X GET "localhost:9200"
+	curl -s -XGET 'http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=5s'
 healthcheck-logstash:
 	echo '{"message":"hello world from Farzan"}' | nc localhost 5000
 cache-clear:

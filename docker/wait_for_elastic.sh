@@ -3,7 +3,7 @@
 # This script waits for the ElasticSearch to become up and ready.
 # If ES does not get ready in 120 seconds, it fails.
 
-timeout_seconds=120  # Maximum wait time in seconds
+timeout_seconds=300  # Maximum wait time in seconds
 start_time=$(date +%s)
 
 echo

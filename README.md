@@ -169,7 +169,7 @@ If you cannot run the project, following tips may be useful:
 make teardown
 make setup
 ```
+* Sometimes restarting Docker Desktop or Docker services solves some caching issues.
 * Sometimes it takes a lot of time for ElasticSearch to boot up. If it takes more than 120 seconds, the setup script will fail.
 * Make sure you don't have other containers/web servers that use the port `80`.
-
 
